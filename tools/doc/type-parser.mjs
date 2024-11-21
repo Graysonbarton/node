@@ -199,6 +199,9 @@ const customTypesMap = {
 
   'repl.REPLServer': 'repl.html#class-replserver',
 
+  'Session': 'sqlite.html#class-session',
+  'StatementSync': 'sqlite.html#class-statementsync',
+
   'Stream': 'stream.html#stream',
   'stream.Duplex': 'stream.html#class-streamduplex',
   'Duplex': 'stream.html#class-streamduplex',
@@ -221,6 +224,9 @@ const customTypesMap = {
 
   'Tracing': 'tracing.html#tracing-object',
 
+  'tty.ReadStream': 'tty.html#class-ttyreadstream',
+  'tty.WriteStream': 'tty.html#class-ttywritestream',
+
   'URL': 'url.html#the-whatwg-url-api',
   'URLSearchParams': 'url.html#class-urlsearchparams',
 
@@ -231,6 +237,8 @@ const customTypesMap = {
   'vm.SourceTextModule': 'vm.html#class-vmsourcetextmodule',
   'vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER':
       'vm.html#vmconstantsuse_main_context_default_loader',
+  'vm.constants.DONT_CONTEXTIFY':
+      'vm.html#vmconstantsdont_contextify',
 
   'MessagePort': 'worker_threads.html#class-messageport',
   'Worker': 'worker_threads.html#class-worker',

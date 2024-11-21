@@ -284,8 +284,8 @@ You can integrate the PRs into the proposal without running full CI.
 
 ⚠️ At this point, you can either run `git node release --prepare`:
 
-```console
-$ git node release --prepare x.y.z
+```bash
+git node release -S --prepare x.y.z
 ```
 
 to automate the remaining steps until step 6 or you can perform it manually
@@ -310,6 +310,9 @@ branched off of `vN.x`.
 $ git checkout -b v1.2.3-proposal upstream/v1.x
 git cherry-pick  ...  # cherry-pick nodejs-private PR commits directly into the proposal
 ```
+
+Be sure to label the CVE fixes as `notable-change` in the nodejs-private repository.
+This will ensure they are included in the "Notable Changes" section of the CHANGELOG.
 
 </details>
 
@@ -704,12 +707,23 @@ the build before moving forward. Use the following list as a baseline:
 
 ### 11. Tag and sign the release commit
 
-Once you have produced builds that you're happy with, create a new tag. By
-waiting until this stage to create tags, you can discard a proposed release if
-something goes wrong or additional commits are required. Once you have created a
-tag and pushed it to GitHub, you _**must not**_ delete and re-tag. If you make
-a mistake after tagging then you'll have to version-bump and start again and
-count that tag/version as lost.
+Once you have produced builds that you're happy with you can either run
+`git node release --promote`
+
+```bash
+git node release -S --promote https://github.com/nodejs/node/pull/XXXX
+```
+
+to automate the remaining steps until step 16 or you can perform it manually
+following the below steps.
+
+***
+
+Create a new tag: By waiting until this stage to create tags, you can discard
+a proposed release if something goes wrong or additional commits are required.
+Once you have created a tag and pushed it to GitHub, you _**must not**_ delete
+and re-tag. If you make a mistake after tagging then you'll have to version-bump
+and start again and count that tag/version as lost.
 
 Tag summaries have a predictable format. Look at a recent tag to see:
 
@@ -819,7 +833,7 @@ Git should stop to let you fix conflicts.
 Revert all changes that were made to `src/node_version.h`:
 
 ```bash
-git checkout --ours HEAD -- src/node_version.h
+git restore --source=upstream/main src/node_version.h
 ```
 
 <details>
@@ -944,6 +958,13 @@ a `NODEJS_RELEASE_HOST` environment variable:
 NODEJS_RELEASE_HOST=proxy.xyz ./tools/release.sh
 ```
 
+> \[!TIP]
+> Sometimes, due to machines being overloaded or other external factors,
+> the files at <https://nodejs.org/dist/index.json>, <https://nodejs.org/dist/index.tab>
+> or `SHASUMS256.txt` may not be generated correctly.
+> In this case you can repeat the signing step in order
+> to fix it. e.g: `./tools/release.sh -s`.
+
 `tools/release.sh` will perform the following actions when run:
 
 <details>
@@ -1004,7 +1025,7 @@ release. However, the blog post is not yet fully automatic.
 Create a new blog post by running the [nodejs.org release-post.js script][]:
 
 ```bash
-node ./scripts/release-post/index.mjs x.y.z
+node ./apps/site/scripts/release-post/index.mjs x.y.z
 ```
 
 This script will use the promoted builds and changelog to generate the post. Run
@@ -1210,8 +1231,14 @@ the releaser, these must be kept in sync with `main`.
 The `vN.x` and `vN.x-staging` branches must be kept in sync with one another
 up until the date of the release.
 
-The TSC should be informed of any `SEMVER-MAJOR` commits that land within one
-month of the release.
+If a `SEMVER-MAJOR` pull request lands on the default branch within one month
+prior to the major release date, it must not be included on the new major
+staging branch, unless there is consensus from the Node.js releasers team to
+do so. This measure aims to ensure better stability for the release candidate
+(RC) phase, which begins approximately two weeks prior to the official release.
+By restricting `SEMVER-MAJOR` commits in this period, we provide more time for
+thorough testing and reduce the potential for major breakages, especially in
+LTS lines.
 
 ### Create release labels
 

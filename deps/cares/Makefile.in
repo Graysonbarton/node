@@ -230,11 +230,9 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/libcares.pc.in \
 	$(top_srcdir)/config/compile $(top_srcdir)/config/config.guess \
 	$(top_srcdir)/config/config.sub \
 	$(top_srcdir)/config/install-sh $(top_srcdir)/config/ltmain.sh \
-	$(top_srcdir)/config/missing AUTHORS INSTALL.md NEWS README.md \
-	TODO compile config.guess config.sub config/compile \
-	config/config.guess config/config.sub config/install-sh \
-	config/ltmain.sh config/missing depcomp install-sh ltmain.sh \
-	missing
+	$(top_srcdir)/config/missing AUTHORS INSTALL.md README.md \
+	config/compile config/config.guess config/config.sub \
+	config/install-sh config/ltmain.sh config/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -324,9 +322,10 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
-FILECMD = @FILECMD@
 GCOV = @GCOV@
 GENHTML = @GENHTML@
+GMOCK112_CFLAGS = @GMOCK112_CFLAGS@
+GMOCK112_LIBS = @GMOCK112_LIBS@
 GMOCK_CFLAGS = @GMOCK_CFLAGS@
 GMOCK_LIBS = @GMOCK_LIBS@
 GREP = @GREP@
@@ -437,15 +436,15 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign nostdinc 1.9.6
 ACLOCAL_AMFLAGS = -I m4 --install
-MSVCFILES = msvc_ver.inc buildconf.bat
+MSVCFILES = buildconf.bat
 
 # adig and ahost are just sample programs and thus not mentioned with the
 # regular sources and headers
-EXTRA_DIST = AUTHORS CHANGES README.cares $(man_MANS) RELEASE-NOTES.md	\
- c-ares-config.cmake.in libcares.pc.cmake libcares.pc.in buildconf get_ver.awk \
- maketgz TODO README.msvc $(MSVCFILES) INSTALL.md README.md LICENSE.md \
+EXTRA_DIST = AUTHORS $(man_MANS) RELEASE-NOTES.md	\
+ c-ares-config.cmake.in libcares.pc.cmake libcares.pc.in buildconf \
+ README.msvc $(MSVCFILES) INSTALL.md README.md LICENSE.md \
  CMakeLists.txt Makefile.dj Makefile.m32 Makefile.netware Makefile.msvc \
- Makefile.Watcom AUTHORS CONTRIBUTING.md SECURITY.md TODO \
+ Makefile.Watcom CONTRIBUTING.md SECURITY.md DEVELOPER-NOTES.md \
  cmake/EnableWarnings.cmake
 
 CLEANFILES = $(PDFPAGES) $(HTMLPAGES)

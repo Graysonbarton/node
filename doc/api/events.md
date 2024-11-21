@@ -73,8 +73,8 @@ myEmitter.on('event', function(a, b) {
   //     _events: [Object: null prototype] { event: [Function (anonymous)] },
   //     _eventsCount: 1,
   //     _maxListeners: undefined,
-  //     [Symbol(shapeMode)]: false,
-  //     [Symbol(kCapture)]: false
+  //     Symbol(shapeMode): false,
+  //     Symbol(kCapture): false
   //   } true
 });
 myEmitter.emit('event', 'a', 'b');
@@ -91,8 +91,8 @@ myEmitter.on('event', function(a, b) {
   //     _events: [Object: null prototype] { event: [Function (anonymous)] },
   //     _eventsCount: 1,
   //     _maxListeners: undefined,
-  //     [Symbol(shapeMode)]: false,
-  //     [Symbol(kCapture)]: false
+  //     Symbol(shapeMode): false,
+  //     Symbol(kCapture): false
   //   } true
 });
 myEmitter.emit('event', 'a', 'b');
@@ -1337,7 +1337,7 @@ changes:
 -->
 
 * `emitter` {EventEmitter}
-* `name` {string}
+* `name` {string|symbol}
 * `options` {Object}
   * `signal` {AbortSignal} Can be used to cancel waiting for the event.
 * Returns: {Promise}
@@ -1459,8 +1459,7 @@ async function foo(emitter, event, signal) {
 }
 
 foo(ee, 'foo', ac.signal);
-ac.abort(); // Abort waiting for the event
-ee.emit('foo'); // Prints: Waiting for the event was canceled!
+ac.abort(); // Prints: Waiting for the event was canceled!
 ```
 
 ```cjs
@@ -1483,8 +1482,7 @@ async function foo(emitter, event, signal) {
 }
 
 foo(ee, 'foo', ac.signal);
-ac.abort(); // Abort waiting for the event
-ee.emit('foo'); // Prints: Waiting for the event was canceled!
+ac.abort(); // Prints: Waiting for the event was canceled!
 ```
 
 ### Awaiting multiple events emitted on `process.nextTick()`
@@ -2429,11 +2427,17 @@ added:
   - v18.7.0
   - v16.17.0
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/52723
+    description: No longer experimental.
   - version:
     - v22.1.0
     - v20.13.0
     pr-url: https://github.com/nodejs/node/pull/52618
     description: CustomEvent is now stable.
+  - version: v19.0.0
+    pr-url: https://github.com/nodejs/node/pull/44860
+    description: No longer behind `--experimental-global-customevent` CLI flag.
 -->
 
 > Stability: 2 - Stable

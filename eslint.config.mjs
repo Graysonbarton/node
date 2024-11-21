@@ -5,22 +5,22 @@ import benchmarkConfig from './benchmark/eslint.config_partial.mjs';
 import docConfig from './doc/eslint.config_partial.mjs';
 import libConfig from './lib/eslint.config_partial.mjs';
 import testConfig from './test/eslint.config_partial.mjs';
-import toolsConfig from './tools/eslint.config_partial.mjs';
+import toolsConfig from './tools/eslint/eslint.config_partial.mjs';
 import {
   noRestrictedSyntaxCommonAll,
   noRestrictedSyntaxCommonLib,
   requireEslintTool,
   resolveEslintTool,
-} from './tools/eslint.config_utils.mjs';
+} from './tools/eslint/eslint.config_utils.mjs';
+import nodeCore from './tools/eslint/eslint-plugin-node-core.js';
 
 const js = requireEslintTool('@eslint/js');
 const babelEslintParser = requireEslintTool('@babel/eslint-parser');
-const babelPluginSyntaxImportAttributes = requireEslintTool('@babel/plugin-syntax-import-attributes');
+const babelPluginSyntaxImportAttributes = resolveEslintTool('@babel/plugin-syntax-import-attributes');
 const jsdoc = requireEslintTool('eslint-plugin-jsdoc');
 const markdown = requireEslintTool('eslint-plugin-markdown');
 const stylisticJs = requireEslintTool('@stylistic/eslint-plugin-js');
 
-const nodeCore = requireEslintTool('eslint-plugin-node-core');
 nodeCore.RULES_DIR = fileURLToPath(new URL('./tools/eslint-rules', import.meta.url));
 
 // The Module._resolveFilename() monkeypatching is to make it so that ESLint is able to
@@ -43,18 +43,14 @@ export default [
       '**/node_modules/**',
       'benchmark/fixtures/**',
       'benchmark/tmp/**',
-      'doc/**/*.js',
       'doc/changelogs/CHANGELOG_V1*.md',
-      '!doc/api_assets/*.js',
       '!doc/changelogs/CHANGELOG_V18.md',
       'lib/punycode.js',
       'test/.tmp.*/**',
       'test/addons/??_*',
       'test/fixtures/**',
-      'test/message/esm_display_syntax_error.mjs',
       'tools/github_reporter/**',
       'tools/icu/**',
-      'tools/lint-md/lint-md.mjs',
     ],
   },
   // #endregion
@@ -144,6 +140,7 @@ export default [
           ignorePattern: '.*',
         },
       }],
+      'logical-assignment-operators': ['error', 'always', { enforceForIfStatements: true }],
       'default-case-last': 'error',
       'dot-notation': 'error',
       'eqeqeq': ['error', 'smart'],
@@ -289,7 +286,7 @@ export default [
         'error',
         { blankLine: 'always', prev: 'function', next: 'function' },
       ],
-      '@stylistic/js/quotes': ['error', 'single', { avoidEscape: true }],
+      '@stylistic/js/quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
       '@stylistic/js/quote-props': ['error', 'consistent'],
       '@stylistic/js/rest-spread-spacing': 'error',
       '@stylistic/js/semi': 'error',
@@ -313,6 +310,7 @@ export default [
       'node-core/no-unescaped-regexp-dot': 'error',
       'node-core/no-duplicate-requires': 'error',
       'node-core/prefer-proto': 'error',
+      'node-core/prefer-optional-chaining': 'error',
     },
   },
   // #endregion
@@ -346,31 +344,31 @@ export default [
       'error',
       {
         name: '__filename',
-        message: 'Use import.meta.url instead',
+        message: 'Use import.meta.url instead.',
       },
       {
         name: '__dirname',
-        message: 'Not available in ESM',
+        message: 'Not available in ESM.',
       },
       {
         name: 'exports',
-        message: 'Not available in ESM',
+        message: 'Not available in ESM.',
       },
       {
         name: 'module',
-        message: 'Not available in ESM',
+        message: 'Not available in ESM.',
       },
       {
         name: 'require',
-        message: 'Use import instead',
+        message: 'Use import instead.',
       },
       {
         name: 'Buffer',
-        message: 'Import Buffer instead of using the global',
+        message: "Import 'Buffer' instead of using the global.",
       },
       {
         name: 'process',
-        message: 'Import process instead of using the global',
+        message: "Import 'process' instead of using the global.",
       },
     ] },
   },
